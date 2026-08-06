@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: devops-app-c5
-        image: manjukolkar007/test-dev:latest
+        image: swathikarthik/test-dev:latest
         ports:
         - containerPort: 80
 ---
@@ -23,30 +23,11 @@ kind: Service
 metadata:
   name: devops-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: my-app
   ports:
   - port: 80
     targetPort: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: devops-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: mk1234.duckdns.org
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: devops-service
-            port:
-              number: 80
+
 
