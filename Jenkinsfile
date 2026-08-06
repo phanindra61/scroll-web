@@ -2,43 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'manjukolkar007/test-dev:latest'
-        DEPLOY_FILE  = 'deploy.yaml'
-        DOMAIN       = 'mk1234.duckdns.org'
+        DOCKER_IMAGE = 'swathikarthik/test-dev:latest'
     }
 
     stages {
-
-        stage('User Confirmation') {
-            steps {
-                script {
-                    def userInput = input(
-                        id: 'userConfirm',
-                        message: 'Do you want to build this project?',
-                        parameters: [choice(name: 'CONFIRM', choices: ['Yes', 'No'], description: 'Select Yes to proceed or No to abort')]
-                    )
-                    if (userInput == 'No') {
-                        echo "🚫 Build aborted by user."
-                        currentBuild.result = 'ABORTED'
-                        error("User chose not to proceed.")
-                    }
-                }
-            }
-        }
-
-        stage('Select Branch') {
-            steps {
-                script {
-                    def branchInput = input(
-                        id: 'branchSelect',
-                        message: 'Select the branch to build:',
-                        parameters: [string(name: 'BRANCH', defaultValue: 'master', description: 'Enter the branch name to build')]
-                    )
-                    env.BRANCH_NAME = branchInput
-                    echo "✅ Selected Branch: ${env.BRANCH_NAME}"
-                }
-            }
-        }
 
         stage('Clone Repository') {
             steps {
