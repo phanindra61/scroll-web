@@ -45,39 +45,9 @@ pipeline {
             steps {
                 sh '''
                 echo "🚀 Deploying to Kubernetes..."
-                kubectl apply -f $DEPLOY_FILE
-                echo "Waiting for pods to stabilize..."
-                sleep 20
-                kubectl get pods
+                microk8s.kubectl apply -f deploy.yaml
                 '''
             }
-        }
-
-        stage('Apply Ingress & Verify') {
-            steps {
-                sh '''
-                echo "🌐 Applying Ingress for domain $DOMAIN ..."
-                kubectl apply -f $DEPLOY_FILE
-                echo "Waiting for ingress to be ready..."
-                sleep 20
-                kubectl get ingress
-                echo "🔍 Verifying application availability..."
-                curl -I http://$DOMAIN || echo "⚠️ Could not verify via curl, please check browser."
-                echo "✅ Deployment complete! Access: http://$DOMAIN"
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ CI/CD pipeline executed successfully. App deployed and accessible via Ingress.'
-        }
-        failure {
-            echo '❌ Build or deploy failed. Please review Jenkins logs.'
-        }
-        aborted {
-            echo '⚠️ Pipeline aborted by user.'
         }
     }
 }
