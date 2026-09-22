@@ -26,7 +26,7 @@ spec:
   type: NodePort
   selector:
     app: my-app
-  ports:
+  ports: 30326
   - port: 80
     targetPort: 80
 
