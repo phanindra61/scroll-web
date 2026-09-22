@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git branch: 'master', url: 'https://github.com/swathis10/scroll-web.git'
+                git branch: 'master', url: 'https://github.com/phanindra61/scroll-web'
             }
         }
 
